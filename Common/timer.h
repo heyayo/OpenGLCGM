@@ -1,8 +1,9 @@
-#ifdef _WIND32
+#ifdef _WIN32
 #ifndef _TIMER_H
 #define _TIMER_H
 
 #include <windows.h>
+#pragma comment(lib, "winmm.lib")
 
 class StopWatch
 {

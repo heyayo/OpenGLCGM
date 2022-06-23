@@ -5,6 +5,8 @@
 #include "Common/timer.h"
 
 #ifdef _WIN32
+#define GLEW_STATIC
+#pragma comment(lib, "OpenGL32.lib")
 
 class Application
 {
@@ -23,7 +25,6 @@ private:
 };
 
 #elif __linux__
-
 #include <SDL2/SDL_scancode.h>
 
 class Application
