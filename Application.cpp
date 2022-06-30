@@ -11,22 +11,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#ifdef __linux__
-#include <SDL2/SDL_scancode.h>
-#include <SDL2/SDL_keyboard.h>
-#endif
-
 #include "Scene1.h"
 
 GLFWwindow* m_window;
 const unsigned char FPS = 60; // FPS of this game
 const unsigned int frameTime = 1000 / FPS; // time for each frame
-
-#ifdef __linux__
-
-	const Uint8* Application::state = SDL_GetKeyboardState(NULL);
-
-#endif
 
 //Define an error callback
 static void error_callback(int error, const char* description)
@@ -60,9 +49,9 @@ bool Application::IsKeyPressed(unsigned short key)
 
 #elif __linux__
 
-bool Application::IsKeyPressed(SDL_Scancode key)
+bool Application::IsKeyPressed(int key)
 {
-	return state[key];
+	return glfwGetKey(m_window, key) == GLFW_PRESS;
 }
 
 #endif
@@ -156,10 +145,10 @@ void Application::Run()
 	Scene *scene = new Scene1();
 	scene->Init();
 
-	m_timer.StartTimer();    // Start timer to calculate how long it takes to render this frame
-	while (!glfwWindowShouldClose(m_window) && !IsKeyPressed(SDL_SCANCODE_ESCAPE))
+	m_timer.startTimer();    // Start timer to calculate how long it takes to render this frame
+	while (!glfwWindowShouldClose(m_window) && !IsKeyPressed(GLFW_KEY_ESCAPE))
 	{
-		scene->Update(m_timer.GetMiliSec());
+		scene->Update(m_timer.getElapsedTime());
 		scene->Render();
 		//Swap buffers
 		glfwSwapBuffers(m_window);

@@ -34,15 +34,14 @@ class StopWatch
     private:
     timespec last, now, elapsed;
     timespec res;
-    void GetElapsed(timespec last, timespec now, timespec &delta);
+    double CalculateTime(timespec old, timespec young); // Function to handle calculating past'd time in seconds
 
     public:
     StopWatch();
     ~StopWatch();
-    void StartTimer();
-    timespec TimeSinceStart(); // Returns a variable of type timespec containing the nanoseconds as a long and seconds in int since the start of the timer
-    double GetMiliSec();
-    void waitUntil(long time);
+    void startTimer();
+    double getElapsedTime(); // Returns a variable of type timespec containing the nanoseconds as a long and seconds in int since the start of the timer
+    void waitUntil(long long time);
 };
 
 #endif

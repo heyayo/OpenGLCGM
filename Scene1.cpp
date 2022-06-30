@@ -1,5 +1,6 @@
 #include "Scene1.h"
 #include "glew/include/GL/glew.h"
+#include "glfw/include/GLFW/glfw3.h"
 
 #include "shader.hpp"
 #include "Application.h"
@@ -60,6 +61,7 @@ void Scene1::Update(double dt)
 
 	// Update the camera object
 	camera.Update(dt);
+	std::cout << dt << std::endl;
 }
 
 void Scene1::Render()
@@ -131,19 +133,19 @@ void Scene1::HandleKeyPress()
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); //wireframe mode
 	}
 	#elif __linux__
-	if (Application::IsKeyPressed(SDL_SCANCODE_1))
+	if (Application::IsKeyPressed(GLFW_KEY_1))
 	{
 		glEnable(GL_CULL_FACE);
 	}
-	if (Application::IsKeyPressed(SDL_SCANCODE_2))
+	if (Application::IsKeyPressed(GLFW_KEY_2))
 	{
 		glDisable(GL_CULL_FACE);
 	}
-	if (Application::IsKeyPressed(SDL_SCANCODE_3))
+	if (Application::IsKeyPressed(GLFW_KEY_3))
 	{
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}
-	if (Application::IsKeyPressed(SDL_SCANCODE_4))
+	if (Application::IsKeyPressed(GLFW_KEY_4))
 	{
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	}

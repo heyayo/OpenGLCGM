@@ -25,7 +25,6 @@ private:
 };
 
 #elif __linux__
-#include <SDL2/SDL_scancode.h>
 
 class Application
 {
@@ -35,11 +34,10 @@ class Application
 	void Init();
 	void Run();
 	void Exit();
-	static bool IsKeyPressed(SDL_Scancode key);
+	static bool IsKeyPressed(int key);
 
 	private:
 	StopWatch m_timer;
-	static const Uint8* state;
 };
 
 #endif

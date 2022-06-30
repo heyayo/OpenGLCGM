@@ -66,27 +66,21 @@ StopWatch::StopWatch()
 
 StopWatch::~StopWatch() {}
 
-void StopWatch::StartTimer()
+void StopWatch::startTimer()
 {
     clock_gettime(CLOCK_MONOTONIC, &last);
 }
 
-timespec StopWatch::TimeSinceStart()
+double StopWatch::getElapsedTime()
 {
     clock_gettime(CLOCK_MONOTONIC, &now);
-    GetElapsed(last, now, elapsed);
-    return elapsed;
+    double elapsed = CalculateTime(last,now);
+    last = now;
+    return elapsed * 1000;
 }
 
-void StopWatch::GetElapsed(timespec last, timespec now, timespec &delta)
+void StopWatch::waitUntil(long long time)
 {
-    delta.tv_nsec = now.tv_nsec - last.tv_nsec;
-    delta.tv_sec = now.tv_sec - last.tv_sec;
-}
-
-void StopWatch::waitUntil(long time)
-{
-    time = time * 1000;
     timespec NowTime;
     timespec LastTime;
     clock_gettime(CLOCK_MONOTONIC, &LastTime);
@@ -94,15 +88,18 @@ void StopWatch::waitUntil(long time)
     while (true)
     {
         clock_gettime(CLOCK_MONOTONIC, &NowTime);
-        ElaspedTime = NowTime.tv_nsec - LastTime.tv_nsec;
+        ElaspedTime = CalculateTime(last,NowTime) * 1000;
         if (ElaspedTime > time)
             return;
     }
 }
 
-double StopWatch::GetMiliSec()
+double StopWatch::CalculateTime(timespec old, timespec young)
 {
-    return TimeSinceStart().tv_nsec / 1000;
+    timespec elapse;
+    elapse.tv_sec = young.tv_sec - old.tv_sec;
+    elapse.tv_nsec = young.tv_nsec - old.tv_nsec;
+    return (double)elapse.tv_sec + ((double)elapse.tv_nsec / 1000000000);
 }
 
 #endif

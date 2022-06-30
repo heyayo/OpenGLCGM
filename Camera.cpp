@@ -1,5 +1,6 @@
 #include "Camera.h"
 #include "Application.h"
+#include "glfw/include/GLFW/glfw3.h"
 
 /******************************************************************************/
 /*!
@@ -69,13 +70,13 @@ void Camera::Update(double dt)
 	if (Application::IsKeyPressed('D'))
 		this->position.x += CAMERA_SPEED * static_cast<float>(dt); //move camera right
 	#elif __linux__
-	if(Application::IsKeyPressed(SDL_SCANCODE_W))
+	if(Application::IsKeyPressed(GLFW_KEY_W))
 		this->position.y += CAMERA_SPEED * static_cast<float>(dt); //move camera up
-	if (Application::IsKeyPressed(SDL_SCANCODE_A))
+	if (Application::IsKeyPressed(GLFW_KEY_A))
 		this->position.x -= CAMERA_SPEED * static_cast<float>(dt); //move camera left
-	if (Application::IsKeyPressed(SDL_SCANCODE_S))
+	if (Application::IsKeyPressed(GLFW_KEY_S))
 		this->position.y -= CAMERA_SPEED * static_cast<float>(dt); //move camera down
-	if (Application::IsKeyPressed(SDL_SCANCODE_D))
+	if (Application::IsKeyPressed(GLFW_KEY_D))
 		this->position.x += CAMERA_SPEED * static_cast<float>(dt); //move camera right
 	#endif
 }
