@@ -111,28 +111,6 @@ void Scene1::Exit()
 
 void Scene1::HandleKeyPress() 
 {
-	#ifdef _WIN32
-	if (Application::IsKeyPressed(0x31))
-	{
-		// Key press to enable culling
-		glEnable(GL_CULL_FACE);
-	}
-	if (Application::IsKeyPressed(0x32))
-	{
-		// Key press to disable culling
-		glDisable(GL_CULL_FACE);
-	}
-	if (Application::IsKeyPressed(0x33))
-	{
-		// Key press to enable fill mode for the polygon
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL); //default fill mode
-	}
-	if (Application::IsKeyPressed(0x34))
-	{
-		// Key press to enable wireframe mode for the polygon
-		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); //wireframe mode
-	}
-	#elif __linux__
 	if (Application::IsKeyPressed(GLFW_KEY_1))
 	{
 		glEnable(GL_CULL_FACE);
@@ -149,5 +127,4 @@ void Scene1::HandleKeyPress()
 	{
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	}
-	#endif
 }
