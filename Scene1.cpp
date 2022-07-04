@@ -61,7 +61,6 @@ void Scene1::Update(double dt)
 
 	// Update the camera object
 	camera.Update(dt);
-	std::cout << dt << std::endl;
 }
 
 void Scene1::Render()
