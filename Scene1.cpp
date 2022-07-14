@@ -6,6 +6,7 @@
 #include "Application.h"
 #include "Common/Mtx44.h"
 #include "MeshBuilder.h"
+#include "RenderMan.hpp"
 
 Scene1::Scene1()
 {
@@ -52,6 +53,7 @@ void Scene1::Init()
 	}
 
 	meshList[GEO_AXES] = MeshBuilder::GenerateAxes("reference", 1000, 1000, 1000);
+	meshList[GEO_QUAD] = MeshBuilder::GenerateQuad("Plane", Color(1,1,1));
 }
 
 void Scene1::Update(double dt)
@@ -69,6 +71,7 @@ void Scene1::Render()
 	Mtx44 model;
 	Mtx44 view;
 	Mtx44 projection;
+	Mtx44 MVP;
 
 	// Always set the model matrix to identity
 	// i.e. placed at origin, scale 1 and rotation 0
@@ -87,11 +90,17 @@ void Scene1::Render()
 	// Clear color buffer every frame
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	Mtx44 MVP = projection * view * model;
+	RenderMan r(view,projection,MVP);
+
+	r.MVP(model);
 	glUniformMatrix4fv(m_parameters[U_MVP], 1, GL_FALSE, &MVP.a[0]);
 
 	// Render VBO here
 	meshList[GEO_AXES]->Render();
+
+	// EXAMPLE RENDER USING RENDERMAN
+	r.MVP(r.Translate(1,1,1) * r.Rotate(45,0,1,0) * r.Scale(0.5,0.5,0.5)); // This sets the new MVP to use with the new object
+	SR(GEO_QUAD) // This does the glUniformMatrix4fv thing and calls Render on the object
 }
 
 void Scene1::Exit()

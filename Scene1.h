@@ -11,6 +11,7 @@ public:
 	enum GEOMETRY_TYPE
 	{
 		GEO_AXES,
+		GEO_QUAD,
 		NUM_GEOMETRY,
 	};
 

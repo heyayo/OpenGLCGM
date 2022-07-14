@@ -72,7 +72,17 @@ Mesh* MeshBuilder::GenerateQuad(const std::string &meshName, Color color, float 
 	std::vector<GLuint> index_buffer_data;
 
 	// Add the vertices here
+	v.pos.Set(0.5f,0,0.5f); v.color.Set(color.r,color.g,color.b); vertex_buffer_data.push_back(v);
+	v.pos.Set(-0.5f,0,0.5f); v.color.Set(color.r,color.g,color.b); vertex_buffer_data.push_back(v);
+	v.pos.Set(-0.5f,0,-0.5f); v.color.Set(color.r,color.g,color.b); vertex_buffer_data.push_back(v);
+	v.pos.Set(0.5f,0,-0.5f); v.color.Set(color.r,color.g,color.b); vertex_buffer_data.push_back(v);
 
+	index_buffer_data.push_back(0);
+	index_buffer_data.push_back(2);
+	index_buffer_data.push_back(1);
+	index_buffer_data.push_back(0);
+	index_buffer_data.push_back(3);
+	index_buffer_data.push_back(2);
 
 	// Create the new mesh
 	Mesh* mesh = new Mesh(meshName);
