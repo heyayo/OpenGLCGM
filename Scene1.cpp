@@ -68,14 +68,12 @@ void Scene1::Update(double dt)
 void Scene1::Render()
 {
 	// Define the matrices to handle transformation
-	Mtx44 model;
 	Mtx44 view;
 	Mtx44 projection;
 	Mtx44 MVP;
 
 	// Always set the model matrix to identity
 	// i.e. placed at origin, scale 1 and rotation 0
-	model.SetToIdentity();
 
 	// Use the camera as the view matrix
 	view.SetToLookAt(
@@ -92,7 +90,7 @@ void Scene1::Render()
 
 	RenderMan r(view,projection,MVP);
 
-	r.MVP(model);
+	r.MVP(r.GetIdentity());
 	glUniformMatrix4fv(m_parameters[U_MVP], 1, GL_FALSE, &MVP.a[0]);
 
 	// Render VBO here
@@ -101,6 +99,13 @@ void Scene1::Render()
 	// EXAMPLE RENDER USING RENDERMAN
 	r.MVP(r.Translate(1,1,1) * r.Rotate(45,0,1,0) * r.Scale(0.5,0.5,0.5)); // This sets the new MVP to use with the new object
 	SR(GEO_QUAD) // This does the glUniformMatrix4fv thing and calls Render on the object
+
+	// EXAMPLE RENDER USING WITH MATRIX STACKS
+	RenderMan stackeg(view,projection,MVP);
+
+	stackeg.PushN(stackeg.Scale(1.f,2.f)); // First Matrix to Scale by 2 on Y
+	stackeg.SMVP(stackeg.Translate(1.f,1.f,1.f)); // Multiplies the first matrix and the new matrix given as parameters with the view and projection to get the MVP
+	SR(GEO_QUAD) // Render
 }
 
 void Scene1::Exit()

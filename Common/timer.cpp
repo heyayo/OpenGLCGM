@@ -76,7 +76,7 @@ double StopWatch::getElapsedTime()
     clock_gettime(CLOCK_MONOTONIC, &now);
     double elapsed = CalculateTime(last,now);
     last = now;
-    return elapsed * 1000;
+    return elapsed;
 }
 
 void StopWatch::waitUntil(long long time)

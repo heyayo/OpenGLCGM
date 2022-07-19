@@ -5,7 +5,10 @@
 RenderMan::RenderMan(Mtx44 view, Mtx44 projection, Mtx44 &m)
 : rview(view), rprojection(projection), mvp(m) {}
 
-RenderMan::~RenderMan(){}
+RenderMan::~RenderMan()
+{
+    Stack.Clear();
+}
 
 // Get An Identity Matrix
 Mtx44 RenderMan::GetIdentity()
@@ -42,8 +45,43 @@ Mtx44 RenderMan::Translate(float x, float y, float z)
     return Translater;
 }
 
+// Retrieve the Top Matrix in the Stack
+Mtx44 RenderMan::Top()
+{
+    return Stack.Top();
+}
+
 // Auto Calculate MVP using Auto Functions Above
 void RenderMan::MVP(Mtx44 model)
 {
     mvp = rprojection * rview * model;
+}
+
+// Load Matrix into Stack with Inheritance
+void RenderMan::PushM(Mtx44 model)
+{
+    Stack.PushMatrix();
+    Stack.MultMatrix(model);
+}
+
+// Load Matrix into Stack without Inheritance
+void RenderMan::PushN(Mtx44 model)
+{
+    Stack.PushMatrix();
+    Stack.LoadMatrix(model);
+}
+
+// Pop Matrix (Remove the top Matrix)
+void RenderMan::Pop()
+{
+    Stack.PopMatrix();
+}
+
+// Auto Calculate the MVP with Consideration of the Top Matrix in Stack
+void RenderMan::SMVP(Mtx44 model)
+{
+    Stack.PushMatrix();
+    Stack.MultMatrix(model);
+    mvp = rprojection * rview * Stack.Top();
+    Stack.PopMatrix();
 }
